@@ -87,5 +87,3 @@ def to_polish(expression, begin=0, end=0):
 
 
 print(eval_prefix(to_polish('(2 + (1 + 2) * 2 + (1 - (6 + 4)) / 3) - 9')))
-print(to_polish('2+3*4-5+6/2*4-2*3'))
-print(eval_prefix(to_polish('2+3*4-5+6/2*4-2*3')))
