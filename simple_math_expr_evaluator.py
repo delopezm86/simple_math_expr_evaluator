@@ -58,6 +58,7 @@ def to_polish(expression, begin=0, end=0):
   expression = list(expression.replace(' ',''))
   polish_list = []
   str_number = ''
+  last_oper_pos = 0
   simplify_parentheses(expression)
   for pos, chr in enumerate(expression):
       if is_number(chr):
@@ -70,10 +71,15 @@ def to_polish(expression, begin=0, end=0):
               polish_list.insert(begin, chr)
               end += 1
           else:
-              if oper_dict[polish_list[begin]][1] > oper_dict[chr][1]:
+              if oper_dict[polish_list[last_oper_pos]][1] > oper_dict[chr][1]:
                   polish_list.insert(end-1,chr)
+                  last_oper_pos = end - 1
+              elif oper_dict[polish_list[last_oper_pos]][1] == oper_dict[chr][1]:
+                  polish_list.insert(last_oper_pos, chr)
+                  begin = last_oper_pos
               else:
                   polish_list.insert(begin, chr)
+                  last_oper_pos = begin
               end += 1
   if str_number:
       polish_list.append(float(str_number))
@@ -81,3 +87,5 @@ def to_polish(expression, begin=0, end=0):
 
 
 print(eval_prefix(to_polish('(2 + (1 + 2) * 2 + (1 - (6 + 4)) / 3) - 9')))
+print(to_polish('2+3*4-5+6/2*4-2*3'))
+print(eval_prefix(to_polish('2+3*4-5+6/2*4-2*3')))
